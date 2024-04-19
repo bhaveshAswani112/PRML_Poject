@@ -1,8 +1,7 @@
 import re
-import string
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer , PorterStemmer
+from nltk.stem import SnowballStemmer
 
 def textprocessing(text):
     # Convert to lowercase
@@ -27,8 +26,8 @@ def textprocessing(text):
     # Lemmatization
     # lem = WordNetLemmatizer()
     # text_lemmatized = [lem.lemmatize(word) for word in text_no_stopwords]
-    porter = PorterStemmer()
-    text_stemmed = [porter.stem(word) for word in text_no_stopwords]
+    stemer = SnowballStemmer()
+    text_stemmed = [stemer.stem(word) for word in text_no_stopwords]
     
     # Join tokens back into a string
     # text_processed = " ".join(text_lemmatized)
