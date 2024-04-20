@@ -1,36 +1,48 @@
 import re
+import string
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 
 def textprocessing(text):
-    # Convert to lowercase
-    text_lower = str(text).lower()
+    text = str(text).lower()
     
     # Remove URLs
-    text_no_urls = re.sub(r"https\S+|www\S+|https\S+"," ", text_lower, flags=re.MULTILINE)
+    text = re.sub(r'https?://\S+|www\.\S+', '', text)
     
-    # Remove non-alphanumeric characters
-    text_no_nonalpha = re.sub("(\\d|\\W)+", " ", text_no_urls)
+    # Remove square brackets and their contents
+    text = re.sub(r'\[.*?\]', '', text)
     
+    # Replace non-word characters with a space
+    text = re.sub(r'\W', ' ', text)
+    
+    # Remove XML tags
+    text = re.sub(r'<.*?>+', '', text)
+    
+    # Remove punctuation
+    text = re.sub(r'[%s]' % re.escape(string.punctuation), '', text)
+    
+    # Remove newline characters
+    text = re.sub(r'\n', '', text)
+    
+    # Remove alphanumeric characters
+    text = re.sub(r'\w*\d\w*', '', text)
+
+
     # Remove '@' and '#' symbols
-    text_no_symbols = re.sub(r'\@\w+|\#', " ", text_no_nonalpha)
+    text = re.sub(r'\@\w+|\#', " ", text)
+
     
     # Tokenization
-    text_tokens = word_tokenize(text_no_symbols)
+    text_tokens = word_tokenize(text)
     
     # Remove stopwords
     stop_words = set(stopwords.words('english')) - {'not','no' , 'never'}
     text_no_stopwords = [word for word in text_tokens if word not in stop_words]
     
     # Lemmatization
-    # lem = WordNetLemmatizer()
-    # text_lemmatized = [lem.lemmatize(word) for word in text_no_stopwords]
-    stemer = SnowballStemmer()
-    text_stemmed = [stemer.stem(word) for word in text_no_stopwords]
-    
-    # Join tokens back into a string
-    # text_processed = " ".join(text_lemmatized)
-    text_processed = " ".join(text_stemmed)
+    lem = SnowballStemmer('english')
+    text_lemmatized = [lem.stem(word) for word in text_no_stopwords]
+    text_processed = " ".join(text_lemmatized)
     
     return text_processed
