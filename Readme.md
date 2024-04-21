@@ -14,9 +14,19 @@ Follow these steps to install and run the project:
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd <project-directory>
-   pip install -r requirements.txt
-   python app.py
+      git clone https://github.com/bhaveshAswani112/PRML_Poject.git
+2. Change the directory
+   ```bash
+      cd PRML_POJECT
+3. Install required Python packages:
+   ```bash
+      pip install -r requirements.txt
+4. Install necessary NLTK modules:
+   ```bash
+      python nltk_modules.py
+
+5. Run the application:
+   ```bash
+      python app.py
 
 
